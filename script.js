@@ -211,14 +211,18 @@ document.querySelectorAll('.gallery-item').forEach(item => {
         const lightboxContent = lightbox.querySelector('.lightbox-content');
         lightboxContent.style.cssText = `
             position: relative;
-            max-width: 90%;
-            max-height: 90%;
+            width: 90vw;
+            height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         `;
         
         const lightboxImg = lightbox.querySelector('img');
         lightboxImg.style.cssText = `
             width: 100%;
-            height: auto;
+            height: 100%;
+            object-fit: contain;
             border-radius: 10px;
         `;
         
