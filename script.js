@@ -159,95 +159,34 @@ if (statsSection) {
     statsObserver.observe(statsSection);
 }
 
-// Audio Player Setup
-let currentAudio = null;
-let currentCard = null;
-
 // Track Card Play Button Interaction
 document.querySelectorAll('.track-card').forEach(card => {
     const playOverlay = card.querySelector('.play-overlay');
     const playIcon = playOverlay.querySelector('i');
-    const trackFile = card.getAttribute('data-track');
     
     playOverlay.addEventListener('click', () => {
-        // If clicking on the currently playing track, just pause/resume it
-        if (currentCard === card && currentAudio && !currentAudio.paused) {
-            currentAudio.pause();
-            playIcon.classList.remove('fa-pause');
-            playIcon.classList.add('fa-play');
-            card.style.animation = '';
-            return;
-        }
-        
-        // If clicking on a paused track, resume it
-        if (currentCard === card && currentAudio && currentAudio.paused) {
-            currentAudio.play();
-            playIcon.classList.remove('fa-play');
-            playIcon.classList.add('fa-pause');
-            card.style.animation = 'pulse 1s infinite';
-            return;
-        }
-        
-        // Stop any currently playing track from other cards
-        if (currentAudio && currentAudio !== null && currentCard !== card) {
-            currentAudio.pause();
-            currentAudio.currentTime = 0;
-            
-            // Reset previous card
-            if (currentCard) {
-                const prevPlayIcon = currentCard.querySelector('.play-overlay i');
-                prevPlayIcon.classList.remove('fa-pause');
-                prevPlayIcon.classList.add('fa-play');
-                currentCard.style.animation = '';
+        // Find all other playing tracks and stop them
+        document.querySelectorAll('.track-card').forEach(otherCard => {
+            if (otherCard !== card) {
+                const otherPlayIcon = otherCard.querySelector('.play-overlay i');
+                const otherPlayOverlay = otherCard.querySelector('.play-overlay');
+                
+                // Stop other tracks
+                if (otherPlayIcon.classList.contains('fa-pause')) {
+                    otherPlayIcon.classList.remove('fa-pause');
+                    otherPlayIcon.classList.add('fa-play');
+                    otherCard.style.animation = '';
+                }
             }
-        }
+        });
         
-        // Start new track
+        // Toggle current track
         if (playIcon.classList.contains('fa-play')) {
-            // Create new audio element
-            currentAudio = new Audio(trackFile);
-            currentCard = card;
-            
             playIcon.classList.remove('fa-play');
             playIcon.classList.add('fa-pause');
-            
             // Add pulse animation to the card
             card.style.animation = 'pulse 1s infinite';
-            
-            // Play the audio
-            currentAudio.play().catch(error => {
-                console.error('Error playing audio:', error);
-                // Reset UI if audio fails to play
-                playIcon.classList.remove('fa-pause');
-                playIcon.classList.add('fa-play');
-                card.style.animation = '';
-            });
-            
-            // Handle audio end
-            currentAudio.addEventListener('ended', () => {
-                playIcon.classList.remove('fa-pause');
-                playIcon.classList.add('fa-play');
-                card.style.animation = '';
-                currentAudio = null;
-                currentCard = null;
-            });
-            
-            // Handle audio error
-            currentAudio.addEventListener('error', () => {
-                console.error('Audio file not found or cannot be played');
-                playIcon.classList.remove('fa-pause');
-                playIcon.classList.add('fa-play');
-                card.style.animation = '';
-                currentAudio = null;
-                currentCard = null;
-            });
-            
         } else {
-            // Pause current track (don't reset to beginning)
-            if (currentAudio) {
-                currentAudio.pause();
-            }
-            
             playIcon.classList.remove('fa-pause');
             playIcon.classList.add('fa-play');
             card.style.animation = '';
