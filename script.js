@@ -1,3 +1,62 @@
+// Custom Cursor
+const cursor = document.querySelector('.cursor');
+
+let mouseX = 0;
+let mouseY = 0;
+let cursorX = 0;
+let cursorY = 0;
+
+// Mouse move event
+document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+});
+
+// Animation loop for smooth cursor movement
+function animateCursor() {
+    // Cursor follows mouse directly
+    cursorX += (mouseX - cursorX) * 0.5;
+    cursorY += (mouseY - cursorY) * 0.5;
+    
+    cursor.style.left = cursorX + 'px';
+    cursor.style.top = cursorY + 'px';
+    
+    requestAnimationFrame(animateCursor);
+}
+
+animateCursor();
+
+// Hover effects for interactive elements
+const interactiveElements = document.querySelectorAll('a, button, .track-card, .gallery-item, .event-card, .social-link, input, textarea');
+
+interactiveElements.forEach(element => {
+    element.addEventListener('mouseenter', () => {
+        cursor.classList.add('hover');
+    });
+    
+    element.addEventListener('mouseleave', () => {
+        cursor.classList.remove('hover');
+    });
+});
+
+// Click effect
+document.addEventListener('mousedown', () => {
+    cursor.classList.add('click');
+});
+
+document.addEventListener('mouseup', () => {
+    cursor.classList.remove('click');
+});
+
+// Hide cursor when it leaves the window
+document.addEventListener('mouseleave', () => {
+    cursor.style.opacity = '0';
+});
+
+document.addEventListener('mouseenter', () => {
+    cursor.style.opacity = '1';
+});
+
 // Loading Screen
 window.addEventListener('load', () => {
     setTimeout(() => {
