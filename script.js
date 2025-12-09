@@ -163,16 +163,6 @@ if (statsSection) {
 let currentAudio = null;
 let currentCard = null;
 
-// Helper function to ensure absolute paths work correctly
-const getAssetPath = (path) => {
-    // If path already starts with /, return as-is
-    if (path.startsWith('/')) {
-        return path;
-    }
-    // Otherwise, add leading slash for absolute path
-    return '/' + path;
-};
-
 // Track Card Play Button Interaction
 document.querySelectorAll('.track-card').forEach(card => {
     const playOverlay = card.querySelector('.play-overlay');
@@ -215,7 +205,7 @@ document.querySelectorAll('.track-card').forEach(card => {
         // Start new track
         if (playIcon.classList.contains('fa-play')) {
             // Create new audio element
-            currentAudio = new Audio(getAssetPath(trackFile));
+            currentAudio = new Audio(trackFile);
             currentCard = card;
             
             playIcon.classList.remove('fa-play');
