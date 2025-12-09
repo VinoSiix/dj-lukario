@@ -14,9 +14,9 @@ document.addEventListener('mousemove', (e) => {
 
 // Animation loop for smooth cursor movement
 function animateCursor() {
-    // Cursor follows mouse directly
-    cursorX += (mouseX - cursorX) * 0.5;
-    cursorY += (mouseY - cursorY) * 0.5;
+    // Cursor follows mouse directly with much higher responsiveness
+    cursorX += (mouseX - cursorX) * 0.9;
+    cursorY += (mouseY - cursorY) * 0.9;
     
     cursor.style.left = cursorX + 'px';
     cursor.style.top = cursorY + 'px';

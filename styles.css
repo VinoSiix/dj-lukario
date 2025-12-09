@@ -43,7 +43,7 @@ a, button, input, textarea, select, .track-card, .gallery-item, .event-card, .so
     position: fixed;
     transform: translate(-50%, -50%);
     pointer-events: none;
-    transition: all 0.1s ease;
+    transition: all 0.05s ease;
     z-index: 9999;
     mix-blend-mode: difference;
 }
